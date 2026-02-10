@@ -1,0 +1,73 @@
+<aside class="min-h-screen w-20 lg:w-64 bg-white border-r border-gray-100 flex flex-col gap-2 p-4 lg:p-6 items-center ">
+  <picture class=" w-10 h-10 lg:w-28 lg:h-28 mb-6">
+    <img src="/logo.png" alt="logo" class="w-full h-full object-contain">
+  </picture>
+  <ul class="flex flex-col gap-1">
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+         px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 hover:font-medium" routerLink="/dashboard" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-home />
+        <span class="hidden lg:inline">Home</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+         px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 hover:font-medium" routerLink="/services" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-services />
+        <span class="hidden lg:inline">Services</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+         px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 hover:font-medium" routerLink="/sub-services" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-subservices />
+        <span class="hidden lg:inline">SubServices</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+        px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 
+        hover:font-medium" routerLink="options" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-options />
+        <span class="hidden lg:inline">Options</span>
+      </a>
+    </li>
+
+
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+         px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 hover:font-medium" routerLink="/bookings" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-bookings />
+        <span class="hidden lg:inline">Bookings</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+         px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 hover:font-medium" routerLink="/users" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-users />
+        <span class="hidden lg:inline">Users</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+         px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 hover:font-medium" routerLink="scheduals" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-schedules />
+        <span class="hidden lg:inline">Schedules</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
+         px-0 lg:px-10 text-base transition lg:hover:bg-gray-100 hover:font-medium" routerLink="settings" routerLinkActive="lg:bg-gray-100 font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon-settings />
+        <span class="hidden lg:inline">Settings</span>
+      </a>
+    </li>
+
+  </ul>
+</aside>
