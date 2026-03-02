@@ -1,0 +1,21 @@
+<!-- app-table.component.html -->
+<div class="border border-border border-b-0 rounded-xl w-full overflow-x-scroll">
+  <table class="app-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        @for (col of columns; track col.field) {
+          <th>{{ col.label }}</th>
+        }
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of data; track item.id; let i = $index) {
+        <ng-container
+          *ngTemplateOutlet="rowTemplate; context: { $implicit: item, index: i }">
+        </ng-container>
+      }
+    </tbody>
+  </table>
+</div>

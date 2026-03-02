@@ -1,0 +1,17 @@
+.app-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+.app-table th,
+.app-table td {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-grey-0);
+  border-bottom: 1px solid var(--color-grey-200);
+  text-align: center;
+}
+

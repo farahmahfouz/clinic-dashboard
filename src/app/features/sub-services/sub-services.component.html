@@ -1,1 +1,63 @@
-<p>sub-services works!</p>
+@if(subServices$ | async; as subServices){
+<app-table [columns]="columns" [data]="subServices" [rowTemplate]="subServiceRow" />
+}
+
+<ng-template #subServiceRow let-subService let-i="index">
+    <tr>
+        <th>{{ i + 1}}</th>
+        <td class="capitalize">{{ subService?.name }}</td>
+        <td>{{ subService?.service?.name }}</td>
+        <td>{{ subService.createdAt | date }}</td>
+        <td class="relative">
+            <button (click)="toggleMenu(i)">
+                <app-icon-operation />
+            </button>
+
+            @if (openIndex === i) {
+            <div appClickOutSide (clickOutside)="openIndex = null"
+                class="absolute right-0 mt-2 w-32 bg-surface border rounded-lg shadow-lg z-50">
+                <button class="block w-full text-left px-4 py-2 hover:bg-border" (click)="openEdit(subService)">
+                    Edit
+                </button>
+
+                <button class="block w-full text-left px-4 py-2 hover:bg-border text-danger"
+                    (click)="openDelete(subService)">
+                    Delete
+                </button>
+            </div>
+            }
+        </td>
+    </tr>
+</ng-template>
+
+<div class="pt-6 flex justify-end">
+    <button appButton (click)="openAdd()">
+        Add
+    </button>
+</div>
+
+<app-modal [isOpen]="isModalOpen" [title]="isEditMode ? 'Edit SubService' : 'Add SubService'" (close)="closeModal()">
+    <app-sub-services-form [services]="services$ | async" (submitForm)="handleSubmit($event)"
+        [subService]="selectedSubService" />
+</app-modal>
+
+<app-modal [isOpen]="isDeleteOpen" title="Delete SubService" (close)="isDeleteOpen = false">
+
+    <div class="p-4">
+        <p class="mb-4">
+            Are you sure you want to delete
+            <strong>{{ subServiceToDelete?.name }}</strong> ?
+        </p>
+
+        <div class="flex justify-end gap-2">
+            <button appButton variant="secondary" (click)="isDeleteOpen = false">
+                Cancel
+            </button>
+
+            <button appButton variant="danger" (click)="confirmDelete()">
+                Delete
+            </button>
+        </div>
+    </div>
+
+</app-modal>

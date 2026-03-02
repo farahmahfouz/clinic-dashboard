@@ -1,1 +1,50 @@
-<p>auth works!</p>
+<div class="min-h-screen flex items-center justify-center">
+    <div class="flex flex-col items-center gap-6 w-96">
+        <img src="logo.png" alt="logo" class="w-28 h-28 object-cover">
+        <h1 class="text-xl font-semibold">Login into your account</h1>
+
+        <form class="flex flex-col gap-4 w-full bg-surface py-8 px-4" [formGroup]="form" (submit)="onSubmit()">
+
+            <div class="flex flex-col gap-1">
+                <label for="email">Email address</label>
+                <input type="email" name="email" id="email" placeholder="example@example.com"
+                    class="border p-2 rounded-md text-sm focus:outline-none" formControlName="email"
+                    autocomplete="email">
+                <small class="text-red-500 text-sm" *ngIf="emailErrors">
+                    <span *ngIf="emailErrors['required']">Email is required</span>
+                    <span *ngIf="emailErrors['email']">Please enter a valid email</span>
+                    <span *ngIf="emailErrors['server']">{{ emailErrors['server'] }}</span>
+                </small>
+            </div>
+
+            <div class="flex flex-col gap-1 relative">
+                <label for="password">Password</label>
+                <input [type]="showPassword ? 'text' : 'password'" name="password" id="password"
+                    formControlName="password" autocomplete="current-password" placeholder="**********"
+                    class="border p-2 rounded-md text-sm pr-10 focus:outline-none">
+                <button type="button" (click)="togglePassword()"
+                    class="absolute right-2 top-12 -translate-y-1/2 text-sm">
+                    @if (showPassword) {
+                    <app-icon-eye></app-icon-eye>
+                    } @else {
+                    <app-icon-eye-lash></app-icon-eye-lash>
+                    }
+                </button>
+                <small class="text-red-500 text-sm" *ngIf="passwordErrors">
+                    <span *ngIf="passwordErrors['required']">Password is required</span>
+                    <span *ngIf="passwordErrors['minlength']">Password must be at least 8 characters</span>
+                    <span *ngIf="passwordErrors['server']">{{ passwordErrors['server'] }}</span>
+                </small>
+            </div>
+
+            <button class="bg-primary text-white p-2 rounded-md">
+                @if(isLoading) {
+                <span class="loading loading-spinner loading-sm pe-0.5"></span>
+                <span>Loading...</span>
+                } @else {
+                <span>Login</span>
+                }
+            </button>
+        </form>
+    </div>
+</div>

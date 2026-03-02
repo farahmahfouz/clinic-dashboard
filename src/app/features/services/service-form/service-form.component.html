@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+    <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
+        <label for="name">Service name</label>
+        <input formControlName="name" type="text" placeholder="Service name"
+            class="input border text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+    </div>
+
+    <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
+        <label for="description">Service Description</label>
+        <textarea formControlName="description" type="text" placeholder="Service description"
+            class="input border text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" ></textarea>
+    </div>
+
+    <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
+        <label for="coverImage">Image</label>
+        <input type="file" placeholder="Image URL" class="file-input file-input-primary"
+            (change)="onFileChange($event)" />
+    </div>
+
+    <div class="flex justify-end gap-3">
+        <button type="button" variant="secondary" appButton>
+            Cancel
+        </button>
+        <button type="submit" appButton>
+            Save
+        </button>
+    </div>
+
+</form>

@@ -1,1 +1,86 @@
-<p>settings works!</p>
+<form [formGroup]="clinicForm">
+
+  <!-- ================= BASIC INFO ================= -->
+  <h3 class="font-semibold text-lg pb-3">Basic Info</h3>
+
+  <div class="flex gap-4">
+    <app-control label="Name">
+      <input type="text" formControlName="clinicName" (blur)="updateField('clinicName')" />
+    </app-control>
+
+    <app-control label="Email">
+      <input type="email" formControlName="email" (blur)="updateField('email')" />
+    </app-control>
+
+    <app-control label="Phone">
+      <input type="text" formControlName="phone" (blur)="updateField('phone')" />
+    </app-control>
+  </div>
+
+
+  <!-- ================= LOCATION ================= -->
+  <h3 class="font-semibold text-lg pb-3">Location</h3>
+
+  <div formGroupName="location" class="flex gap-4">
+    <app-control label="Address">
+      <input type="text" formControlName="address" (blur)="updateNestedField('location','address')" />
+    </app-control>
+
+    <app-control label="Google Map Link">
+      <input type="url" formControlName="googleMapLink" (blur)="updateNestedField('location','googleMapLink')" />
+    </app-control>
+  </div>
+
+
+  <!-- ================= WORKING HOURS ================= -->
+  <h3 class="font-semibold text-lg pb-3">Working Hours</h3>
+
+  <div formGroupName="workingHours" class="flex gap-4">
+    <app-control label="Opening Time">
+      <input type="time" formControlName="open" (blur)="updateNestedField('workingHours','open')" />
+    </app-control>
+
+    <app-control label="Closing Time">
+      <input type="time" formControlName="close" (blur)="updateNestedField('workingHours','close')" />
+    </app-control>
+  </div>
+
+
+  <!-- ================= SOCIAL ================= -->
+  <h3 class="font-semibold text-lg pb-3">Social Media</h3>
+
+  <div formGroupName="social" class="grid grid-cols-4 gap-4">
+    <app-control label="Facebook">
+      <input type="url" formControlName="facebook" (blur)="updateNestedField('social','facebook')" />
+    </app-control>
+
+    <app-control label="Instagram">
+      <input type="url" formControlName="instagram" (blur)="updateNestedField('social','instagram')" />
+    </app-control>
+
+    <app-control label="TikTok">
+      <input type="url" formControlName="tiktok" (blur)="updateNestedField('social','tiktok')" />
+    </app-control>
+
+    <app-control label="WhatsApp">
+      <input type="url" formControlName="whatsapp" (blur)="updateNestedField('social','whatsapp')" />
+    </app-control>
+  </div>
+
+
+  <!-- ================= IMAGES ================= -->
+  <h3 class="font-semibold text-lg pb-3">Images</h3>
+
+  <div class="flex gap-4">
+    <div class="flex flex-col gap-2">
+      <label for="cover-image" class="text-sm font-medium">Cover Image</label>
+      <input type="file" (change)="onFileSelect($event, 'coverImage')" class="file-input file-input-primary" />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="logo" class="text-sm font-medium">Logo</label>
+      <input type="file" (change)="onFileSelect($event, 'logo')" class="file-input file-input-primary" />
+    </div>
+  </div>
+
+</form>

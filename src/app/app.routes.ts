@@ -8,8 +8,20 @@ import { SchedualsComponent } from './features/scheduals/scheduals.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { BookingsComponent } from './features/bookings/bookings.component';
 import { LayoutComponent } from './shared/components/layout/layout.component';
+import { AuthComponent } from './features/auth/auth.component';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        component: AuthComponent,
+        title: 'HERA'
+    },
     {
         path: '',
         component: LayoutComponent,
@@ -28,6 +40,11 @@ export const routes: Routes = [
                 path: 'sub-services',
                 component: SubServicesComponent,
                 title: 'SubServices'
+            },
+            {
+                path: 'options/:slug',
+                component: OptionsComponent,
+                title: 'Options',
             },
             {
                 path: 'options',
@@ -54,7 +71,7 @@ export const routes: Routes = [
                 component: SettingsComponent,
                 title: 'Settings'
             }
-        ]
-    }
-
+        ],
+        canActivate: [adminGuard]
+    },
 ];

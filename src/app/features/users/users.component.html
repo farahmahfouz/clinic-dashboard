@@ -1,1 +1,72 @@
-<p>users works!</p>
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-10">
+
+    <div class="w-full mr-auto md:w-64">
+        <input type="text" placeholder="Search by name..." [value]="searchValue"
+            (input)="searchUsers($any($event.target).value)"
+            class="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="bg-surface border border-border p-1 rounded-xl flex gap-1 w-fit shadow-sm">
+
+        <button (click)="filterByRole('all')" [class.bg-primary]="selectedRole === 'all'"
+            [class.text-white]="selectedRole === 'all'" class="px-4 py-2 rounded-lg text-sm font-medium transition">
+            All
+        </button>
+
+        <button (click)="filterByRole('doctor')" [class.bg-primary]="selectedRole === 'doctor'"
+            [class.text-white]="selectedRole === 'doctor'" class="px-4 py-2 rounded-lg text-sm font-medium transition">
+            Doctors
+        </button>
+
+        <button (click)="filterByRole('admin')" [class.bg-primary]="selectedRole === 'admin'"
+            [class.text-white]="selectedRole === 'admin'" class="px-4 py-2 rounded-lg text-sm font-medium transition">
+            Admin
+        </button>
+
+        <button (click)="filterByRole('patient')" [class.bg-primary]="selectedRole === 'patient'"
+            [class.text-white]="selectedRole === 'patient'" class="px-4 py-2 rounded-lg text-sm font-medium transition">
+            Patient
+        </button>
+
+    </div>
+
+    <!-- Sort Dropdown -->
+    <div class="w-full md:w-64">
+        <select (change)="sortUsers($any($event.target).value)"
+            class="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary">
+
+            <option value="-createdAt" selected>
+                Sort by date (recent first)
+            </option>
+
+            <option value="createdAt">
+                Sort by date (oldest first)
+            </option>
+
+            <option value="name">
+                Sort by name
+            </option>
+
+        </select>
+    </div>
+</div>
+
+@if (users$ | async; as users) {
+<app-table [columns]="columns" [data]="users" [rowTemplate]="userRow">
+</app-table>
+}
+
+<ng-template #userRow let-user let-i="index">
+    <tr>
+        <th>{{ i + 1 }}</th>
+        <td>{{ user.name }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.createdAt | date }}</td>
+        <td>
+            <app-icon-operation />
+        </td>
+    </tr>
+</ng-template>

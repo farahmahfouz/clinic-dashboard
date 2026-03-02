@@ -1,1 +1,121 @@
-<p>scheduals works!</p>
+<!-- <app-services-filters
+  [searchValue]="searchValue"
+  [selectedSort]="selectedSort"
+  (searchChange)="searchSchedules($event)"
+  (sortChange)="sortSchedules($event)">
+</app-services-filters> -->
+
+@if (schedules$ | async; as schedules) {
+<app-table [columns]="columns" [data]="schedules" [rowTemplate]="scheduleRow">
+</app-table>
+}
+
+<!-- ROW TEMPLATE -->
+<ng-template #scheduleRow let-schedule let-i="index">
+    <tr>
+        <th>{{ i + 1 }}</th>
+
+        <td>
+            {{ schedule.doctor?.name }}
+        </td>
+
+        <td>
+            {{ schedule.daysOff?.join(', ') }}
+        </td>
+
+        <td class="py-3">
+            <div class="flex flex-col gap-3">
+
+                <div *ngFor="let day of schedule.availability" class="bg-gray-50 rounded-lg p-3">
+
+                    <!-- Day -->
+                    <div class="font-semibold text-sm text-gray-700 mb-2">
+                        {{ day.day }}
+                    </div>
+
+                    <!-- Slots -->
+                    <div class="flex flex-wrap gap-2">
+                        <span *ngFor="let slot of day.slots" class="px-2 py-1 text-xs bg-white border rounded-md">
+                            {{ slot.start }} - {{ slot.end }}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+        </td>
+        <td>
+            {{ schedule.isActive ? 'Yes' : 'No' }}
+        </td>
+
+        <td>
+            {{ schedule.createdAt | date }}
+        </td>
+
+        <!-- Actions -->
+        <td class="relative">
+            <button (click)="toggleMenu(i)">
+                <app-icon-operation />
+            </button>
+
+            @if (openIndex === i) {
+            <div appClickOutSide (clickOutside)="openIndex = null"
+                class="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-50">
+
+                <button class="block w-full text-left px-4 py-2 hover:bg-gray-100" (click)="openEdit(schedule)">
+                    Edit
+                </button>
+
+                <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-danger"
+                    (click)="openDelete(schedule)">
+                    Delete
+                </button>
+
+            </div>
+            }
+        </td>
+    </tr>
+</ng-template>
+
+<!-- ADD BUTTON -->
+<div class="pt-6 flex justify-end">
+    <button appButton (click)="openAdd()">
+        Add Schedule
+    </button>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="isEditMode ? 'Edit Schedule' : 'Add Schedule'"
+  (close)="closeModal()">
+
+  <app-schedule-form
+    [initialData]="selectedSchedule"
+    (submitForm)="handleSubmit($event)">
+  </app-schedule-form>
+
+</app-modal>
+
+<!-- DELETE MODAL -->
+<app-modal [isOpen]="isDeleteOpen" title="Delete Schedule" (close)="isDeleteOpen = false">
+
+    <div class="p-4">
+        <p class="mb-4">
+            Are you sure you want to delete
+            <strong>{{ scheduleToDelete?.doctor?.name }}</strong>
+            schedule?
+        </p>
+
+        <div class="flex justify-end gap-2">
+            <button appButton variant="secondary" (click)="isDeleteOpen = false">
+                Cancel
+            </button>
+
+            <button appButton variant="danger" (click)="confirmDelete()">
+                Delete
+            </button>
+        </div>
+    </div>
+
+</app-modal>

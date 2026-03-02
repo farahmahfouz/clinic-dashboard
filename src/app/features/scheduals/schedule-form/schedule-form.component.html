@@ -1,0 +1,90 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 p-4">
+
+  <!-- Doctor -->
+  <div>
+    <label class="block mb-1 font-medium">Doctor ID</label>
+    <input formControlName="doctor"
+           type="text"
+           class="w-full border rounded-md px-3 py-2">
+  </div>
+
+  <!-- Days Off -->
+<div>
+  <label class="block mb-2 font-medium">Days Off</label>
+
+  <div class="flex flex-wrap gap-3">
+    <label *ngFor="let day of days" class="flex items-center gap-1">
+      <input type="checkbox"
+             [checked]="isDayOffSelected(day)"
+             (change)="toggleDayOff(day)">
+      {{ day }}
+    </label>
+  </div>
+</div>
+
+  <!-- Availability -->
+  <div formArrayName="availability">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="font-semibold">Availability</h3>
+      <button type="button" (click)="addDay()" class="text-primary text-sm">
+        + Add Day
+      </button>
+    </div>
+
+    <div *ngFor="let day of availability.controls; let i = index"
+         [formGroupName]="i"
+         class="border rounded-lg p-4 space-y-3 mb-4">
+
+      <div class="flex justify-between items-center">
+        <input formControlName="day"
+               placeholder="Day (ex: Mon)"
+               class="border rounded-md px-3 py-2 w-1/2">
+
+        <button type="button"
+                (click)="removeDay(i)"
+                class="text-danger text-sm">
+          Remove
+        </button>
+      </div>
+
+      <!-- Slots -->
+      <div formArrayName="slots" class="space-y-2">
+        <div *ngFor="let slot of getSlots(i); let j = index"
+             [formGroupName]="j"
+             class="flex gap-3 items-center">
+
+          <input type="time"
+                 formControlName="start"
+                 class="border rounded-md px-2 py-1">
+
+          <input type="time"
+                 formControlName="end"
+                 class="border rounded-md px-2 py-1">
+
+          <button type="button"
+                  (click)="removeSlot(i, j)"
+                  class="text-danger text-sm">
+            ✕
+          </button>
+
+        </div>
+
+        <button type="button"
+                (click)="addSlot(i)"
+                class="text-sm text-primary">
+          + Add Slot
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="flex justify-end">
+    <button type="submit"
+            class="px-4 py-2 bg-primary text-white rounded-lg">
+      Save
+    </button>
+  </div>
+
+</form>

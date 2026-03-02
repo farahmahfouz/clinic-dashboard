@@ -1,0 +1,31 @@
+<div class="flex flex-col md:flex-row md:items-center md:justify-end gap-4 pb-10">
+
+  <!-- Filter Tabs -->
+  <div class="bg-surface border border-border p-1 rounded-xl flex gap-1 w-fit shadow-sm">
+    @for (opt of statusOptions; track opt.value) {
+      <button
+        type="button"
+        class="px-4 py-2 rounded-lg text-sm font-medium transition"
+        [class.bg-primary]="selectedStatus === opt.value"
+        [class.text-white]="selectedStatus === opt.value"
+        [class.text-text]="selectedStatus !== opt.value"
+        [class.hover:bg-hoverGray]="selectedStatus !== opt.value"
+        (click)="onStatusChange(opt.value)">
+        {{ opt.label }}
+      </button>
+    }
+  </div>
+
+  <!-- Sort Dropdown -->
+  <div class="w-full md:w-64">
+    <select
+      class="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      [ngModel]="selectedSort"
+      (ngModelChange)="onSortChange($event)">
+      <option value="-dateOfService">Sort by date (recent first)</option>
+      <option value="dateOfService">Sort by date (oldest first)</option>
+      <option value="user.name">Sort by name</option>
+    </select>
+  </div>
+
+</div>

@@ -1,1 +1,26 @@
-<p>options works!</p>
+<div class="mb-4 flex items-end flex-col">
+  <select
+    class="select  px-3 py-2 rounded-lg border border-border bg-surface text-text text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+    [value]="selectedSlug ?? ''"
+    (change)="onSubServiceChange($any($event.target).value)">
+    <option disabled class="p-2">Choose sub-service</option>
+    @for (s of subServices$ | async; track s._id) {
+      <option [value]="getSlug(s)" class="p-2 capitalize">{{ s.name }}</option>
+    }
+  </select>
+</div>
+
+@if (options.length) {
+  <app-table [columns]="columns" [data]="options" [rowTemplate]="optionRow" />
+}
+
+<ng-template #optionRow let-option let-i="index">
+  <tr>
+    <th>{{ i + 1 }}</th>
+    <td>{{ option?.optionName ?? '—' }}</td>
+    <td>{{ option?.type ?? '—' }}</td>
+    <td>{{ option?.price ?? '—' }}</td>
+    <td>{{ option?.notes ?? '—' }}</td>
+    <td></td>
+  </tr>
+</ng-template>
