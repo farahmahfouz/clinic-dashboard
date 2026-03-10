@@ -1,11 +1,12 @@
-<app-bookings-filters
-  [selectedStatus]="selectedStatus"
-  [selectedSort]="selectedSort"
-  (statusChange)="onFilterChange($event)"
-  (sortChange)="onSortChange($event)" />
+<app-bookings-filters [selectedStatus]="selectedStatus" [selectedSort]="selectedSort"
+  (statusChange)="onFilterChange($event)" (sortChange)="onSortChange($event)" />
 
 @if (bookings.length) {
-  <app-table [columns]="columns" [data]="bookings" [rowTemplate]="bookingRow" />
+<app-table [columns]="columns" [data]="bookings" [rowTemplate]="bookingRow" />
+} @else {
+  <div class="flex justify-center items-center h-full">
+    <p class="text-gray-500">No bookings found</p>
+  </div>
 }
 
 <ng-template #bookingRow let-booking let-i="index">
@@ -18,15 +19,12 @@
     <td>{{ booking.timeSlot?.start }} - {{ booking.timeSlot?.end }}</td>
     <td>{{ booking.totalPrice }}</td>
     <td>
-      <span
-        class="capitalize px-2 py-1 rounded-full text-xs font-medium"
-        [ngClass]="{
+      <span class="capitalize px-2 py-1 rounded-full text-xs font-medium" [ngClass]="{
           'bg-yellow-100 text-yellow-800': booking.status === 'pending',
           'bg-blue-100 text-blue-800': booking.status === 'confirmed',
           'bg-red-100 text-red-800': booking.status === 'cancelled',
           'bg-green-100 text-green-800': booking.status === 'completed'
-        }"
-      >
+        }">
         {{ booking.status }}
       </span>
     </td>
@@ -35,49 +33,35 @@
         <app-icon-operation />
       </button>
       @if (openIndex === i) {
-        <div
-          appClickOutSide
-          (clickOutside)="openIndex = null"
-          class="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg  shadow-lg z-50 py-1"
-        >
-          @if (booking.status !== 'completed') {
-            <button
-              type="button"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-green-700 text-sm"
-              (click)="setStatus(booking, 'completed')"
-            >
-              Mark as Completed
-            </button>
-          }
-          @if (booking.status !== 'confirmed' && booking.status !== 'cancelled') {
-            <button
-              type="button"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-blue-700 text-sm"
-              (click)="setStatus(booking, 'confirmed')"
-            >
-              Mark as Confirmed
-            </button>
-          }
-          @if (booking.status !== 'cancelled') {
-            <button
-              type="button"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 text-sm"
-              (click)="openCancelModal(booking)"
-            >
-              Cancel Booking
-            </button>
-          }
-        </div>
+      <div appClickOutSide (clickOutside)="openIndex = null"
+        class="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg  shadow-lg z-50 py-1">
+        @if (booking.status !== 'completed') {
+        <button type="button" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-green-700 text-sm"
+          (click)="setStatus(booking, 'completed')">
+          Mark as Completed
+        </button>
+        }
+        @if (booking.status !== 'confirmed' && booking.status !== 'cancelled') {
+        <button type="button" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-blue-700 text-sm"
+          (click)="setStatus(booking, 'confirmed')">
+          Mark as Confirmed
+        </button>
+        }
+        @if (booking.status !== 'cancelled') {
+        <button type="button" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 text-sm"
+          (click)="openCancelModal(booking)">
+          Cancel Booking
+        </button>
+        }
+      </div>
       }
     </td>
   </tr>
 </ng-template>
 
-<app-modal
-  [isOpen]="isCancelModalOpen"
-  title="Cancel Booking"
-  (close)="closeCancelModal()"
->
+<app-pagination [page]="page" [limit]="limit" [total]="total" (pageChange)="changePage($event)" />
+
+<app-modal [isOpen]="isCancelModalOpen" title="Cancel Booking" (close)="closeCancelModal()">
   <div class="p-4">
     <p class="mb-4">
       Are you sure you want to cancel the booking for

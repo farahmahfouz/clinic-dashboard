@@ -29,9 +29,16 @@ export class DoctorSchedualService {
 
    constructor(private http: HttpClient) {}
 
-  // ✅ Get All
-  getSchedules(): Observable<any> {
-    return this.http.get<any>('doctor-schedule');
+  /** GET doctor-schedule — optional query: search, sort */
+  getSchedules(params?: { search?: string; sort?: string }): Observable<any> {
+    let url = 'doctor-schedule';
+    if (params?.search || params?.sort) {
+      const q = new URLSearchParams();
+      if (params.search) q.set('search', params.search);
+      if (params.sort) q.set('sort', params.sort);
+      url += '?' + q.toString();
+    }
+    return this.http.get<any>(url);
   }
 
   // ✅ Get One By Doctor Id

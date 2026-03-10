@@ -1,0 +1,29 @@
+<div class="flex items-center justify-between mt-4">
+
+  <!-- left -->
+  <div class="text-sm text-gray-500">
+    Showing {{ start }} to {{ end }} of {{ total }} results
+  </div>
+
+  <!-- right -->
+  <div class="flex gap-4">
+
+    <button
+      class="text-gray-500 disabled:opacity-40"
+      (click)="prevPage()"
+      [disabled]="page === 1"
+    >
+      Previous
+    </button>
+
+    <button
+      class="text-gray-500 disabled:opacity-40"
+      (click)="nextPage()"
+      [disabled]="end >= total "
+    >
+      Next
+    </button>
+
+  </div>
+
+</div>

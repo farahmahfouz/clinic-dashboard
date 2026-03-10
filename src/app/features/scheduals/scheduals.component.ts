@@ -6,13 +6,13 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { OperationIconComponent } from '../../shared/icons/operation-icon.component';
 import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { ButtonComponent } from '../../shared/components/button/button.component';
-import { ServicesFiltersComponent } from '../services/services-filters/services-filters.component';
 import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
+import { SchedualsFiltersComponent } from './scheduals-filters/scheduals-filters.component';
 
 @Component({
   selector: 'app-scheduals',
   standalone: true,
-  imports: [TableComponent, ModalComponent, OperationIconComponent, DatePipe, AsyncPipe, NgFor, ButtonComponent, ScheduleFormComponent],
+  imports: [TableComponent, ModalComponent, OperationIconComponent, DatePipe, AsyncPipe, NgFor, ButtonComponent, ScheduleFormComponent, SchedualsFiltersComponent],
   templateUrl: './scheduals.component.html',
   styleUrl: './scheduals.component.css'
 })
@@ -21,7 +21,7 @@ export class SchedualsComponent {
 
   // filters
   searchValue = '';
-  selectedSort = '';
+  selectedSort = '-createdAt';
 
   // table menu
   openIndex: number | null = null;
@@ -49,9 +49,12 @@ export class SchedualsComponent {
   }
 
   loadSchedules() {
-    this.schedules$ = this.schedulesService.getSchedules().pipe(
-      map(res => res.data.schedules)
-    );
+    this.schedules$ = this.schedulesService
+      .getSchedules({
+        search: this.searchValue || undefined,
+        sort: this.selectedSort || undefined,
+      })
+      .pipe(map(res => res.data?.schedules ?? []));
   }
 
   toggleMenu(index: number) {
@@ -61,11 +64,13 @@ export class SchedualsComponent {
   // --------- Search ---------
   searchSchedules(value: string) {
     this.searchValue = value;
+    this.loadSchedules();
   }
 
   // --------- Sort ---------
   sortSchedules(value: string) {
     this.selectedSort = value;
+    this.loadSchedules();
   }
 
   // --------- Add ---------

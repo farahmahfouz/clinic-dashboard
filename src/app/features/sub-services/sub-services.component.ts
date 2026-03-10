@@ -10,17 +10,32 @@ import { SubServicesFormComponent } from './sub-services-form/sub-services-form.
 import { Service } from '../services/services.component';
 import { ServicesService } from '../../core/services/services.service';
 import { ClickOutSideDirective } from '../../shared/directives/click-out-side.directive';
+import { SubServicesFiltersComponent } from './sub-services-filters/sub-services-filters.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sub-services',
   standalone: true,
-  imports: [AsyncPipe, TableComponent, OperationIconComponent, DatePipe, ButtonComponent, ModalComponent, SubServicesFormComponent, ClickOutSideDirective],
+  imports: [
+    AsyncPipe,
+    TableComponent,
+    OperationIconComponent,
+    DatePipe,
+    ButtonComponent,
+    ModalComponent,
+    SubServicesFormComponent,
+    ClickOutSideDirective,
+    SubServicesFiltersComponent,
+  ],
   templateUrl: './sub-services.component.html',
   styleUrl: './sub-services.component.css'
 })
 export class SubServicesComponent implements OnInit {
   subServices$!: Observable<SubServices[]>;
   services$!: Observable<Service[]>;
+
+  searchValue = '';
+  selectedSort: string = 'createdAt';
 
   isEditMode = false;
   selectedSubService: any = null;
@@ -36,14 +51,17 @@ export class SubServicesComponent implements OnInit {
     { label: 'Created At', field: 'createdAt' },
   ];
 
-  constructor(private subServicesService: SubServicesService, private servicesService: ServicesService) { }
+  constructor(private subServicesService: SubServicesService, private servicesService: ServicesService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.subServices$ = this.subServicesService.subServices$;
-    this.subServicesService.loadSubServices().subscribe();
 
-    this.services$ = this.servicesService.services$;
-    this.servicesService.loadServices().subscribe();
+    this.route.queryParams.subscribe(params => {
+      this.selectedSort = params['sort'] || 'createdAt';
+      this.searchValue = params['search'] || '';
+      this.subServicesService.loadSubServices(this.selectedSort, this.searchValue).subscribe();
+      this.servicesService.loadServices(this.selectedSort, this.searchValue).subscribe();
+    });
   }
 
   openAdd() {
@@ -94,4 +112,19 @@ export class SubServicesComponent implements OnInit {
     }
   }
 
+  searchSubServices(search: string) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { search },
+      queryParamsHandling: 'merge'
+    })
+  }
+
+  sortSubServices(sort: string) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { sort },
+      queryParamsHandling: 'merge'
+    })
+  }
 }

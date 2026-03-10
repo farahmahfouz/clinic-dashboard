@@ -1,0 +1,33 @@
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border: 1px solid var(--color-grey-200);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .results-count {
+    font-size: 14px;
+    color: #9ca3af;
+  }
+  
+  .pagination-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }

@@ -4,7 +4,7 @@
   <ul class="flex flex-col gap-1">
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
-         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/dashboard" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/dashboard" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-home />
         <span class="hidden lg:inline">Home</span>
       </a>
@@ -12,7 +12,7 @@
 
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
-         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/services" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/services" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-services />
         <span class="hidden lg:inline">Services</span>
       </a>
@@ -20,7 +20,7 @@
 
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
-         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/sub-services" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/sub-services" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-subservices />
         <span class="hidden lg:inline">SubServices</span>
       </a>
@@ -29,7 +29,7 @@
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray 
-        hover:font-medium" routerLink="options" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+        hover:font-medium" routerLink="options" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: false,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-options />
         <span class="hidden lg:inline">Options</span>
       </a>
@@ -38,7 +38,7 @@
 
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
-         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/bookings" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/bookings" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-bookings />
         <span class="hidden lg:inline">Bookings</span>
       </a>
@@ -46,7 +46,7 @@
 
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
-         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/users" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="/users" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-users />
         <span class="hidden lg:inline">Users</span>
       </a>
@@ -54,7 +54,7 @@
 
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
-         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="scheduals" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="scheduals" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-schedules />
         <span class="hidden lg:inline">Schedules</span>
       </a>
@@ -62,7 +62,7 @@
 
     <li>
       <a class="flex items-center gap-0 lg:gap-2 rounded-lg py-3
-         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="settings" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true }">
+         px-0 lg:px-10 text-base transition lg:hover:bg-hoverGray hover:font-medium" routerLink="settings" routerLinkActive="lg:bg-hoverGray font-medium active-icon"  [routerLinkActiveOptions]="{ exact: true,  queryParams: 'ignored' }" queryParamsHandling="merge">
         <app-icon-settings />
         <span class="hidden lg:inline">Settings</span>
       </a>

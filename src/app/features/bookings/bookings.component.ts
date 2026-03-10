@@ -8,6 +8,7 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { ClickOutSideDirective } from '../../shared/directives/click-out-side.directive';
 import { BookingsFiltersComponent } from './bookings-filters/bookings-filters.component';
+import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-bookings',
@@ -21,6 +22,7 @@ import { BookingsFiltersComponent } from './bookings-filters/bookings-filters.co
     ModalComponent,
     ButtonComponent,
     ClickOutSideDirective,
+    PaginationComponent,
   ],
   templateUrl: './bookings.component.html',
   styleUrl: './bookings.component.css'
@@ -32,6 +34,10 @@ export class BookingsComponent implements OnInit {
   openIndex: number | null = null;
   isCancelModalOpen = false;
   bookingToCancel: Booking | null = null;
+
+  page = 1;
+  limit = 6;
+  total = 0 ;
 
   columns: TableColumn[] = [
     { label: 'Patient', field: 'user' },
@@ -47,12 +53,14 @@ export class BookingsComponent implements OnInit {
     private bookingsService: BookingsService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.route.queryParamMap.subscribe((params) => {
       this.selectedStatus = params.get('status') ?? '';
       this.selectedSort = params.get('sort') ?? '-dateOfService';
+      this.page = Number(params.get('page')) || 1;
+      this.limit = Number(params.get('limit')) || 6;
       this.loadBookings();
     });
   }
@@ -62,10 +70,18 @@ export class BookingsComponent implements OnInit {
       .getAllBookings({
         status: this.selectedStatus || undefined,
         sort: this.selectedSort,
+        page: this.page,
+        limit: this.limit,
       })
       .subscribe({
-        next: (list) => (this.bookings = list),
-        error: () => (this.bookings = []),
+        next: (res) => {
+          this.bookings = res.bookings;
+          this.total = res.total;
+        },
+        error: () => {
+          this.bookings = [];
+          this.total = 0;
+        },
       });
   }
 
@@ -81,6 +97,14 @@ export class BookingsComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { sort: sort || null },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  changePage(page: number) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page },
       queryParamsHandling: 'merge',
     });
   }

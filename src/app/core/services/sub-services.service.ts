@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
 
@@ -23,8 +23,15 @@ export class SubServicesService {
   subServices$ = this.subServicesSubject.asObservable();
   constructor(private http: HttpClient) { }
 
-  loadSubServices() {
-    return this.http.get<any>('sub-service').pipe(
+  loadSubServices(sort?: string, search?: string) {
+    let params = new HttpParams();
+    if (sort) {
+      params = params.set('sort', sort);
+    }
+    if (search) {
+      params = params.set('search', search);
+    }
+    return this.http.get<any>('sub-service', { params }).pipe(
       map(res => res.data.subServices),
       tap(subServices => this.subServicesSubject.next(subServices))
     )

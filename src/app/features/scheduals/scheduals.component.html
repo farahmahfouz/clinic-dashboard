@@ -1,9 +1,9 @@
-<!-- <app-services-filters
+<app-scheduals-filters
   [searchValue]="searchValue"
   [selectedSort]="selectedSort"
   (searchChange)="searchSchedules($event)"
   (sortChange)="sortSchedules($event)">
-</app-services-filters> -->
+</app-scheduals-filters>
 
 @if (schedules$ | async; as schedules) {
 <app-table [columns]="columns" [data]="schedules" [rowTemplate]="scheduleRow">

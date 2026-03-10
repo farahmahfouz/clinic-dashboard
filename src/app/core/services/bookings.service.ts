@@ -51,17 +51,28 @@ export class BookingsService {
     );
   }
 
-  /** GET booking — optional query: status, sort (e.g. -dateOfService) */
-  getAllBookings(params?: { status?: string; sort?: string }): Observable<Booking[]> {
-    let url = 'booking';
-    if (params?.status || params?.sort) {
-      const q = new URLSearchParams();
-      if (params.status) q.set('status', params.status);
-      if (params.sort) q.set('sort', params.sort);
-      url += '?' + q.toString();
-    }
-    return this.http.get<{ data: { bookings: Booking[] } }>(url).pipe(
-      map(res => res.data?.bookings ?? [])
+  /** GET booking — optional query: status, sort, page, limit. Returns list + total for pagination. */
+  getAllBookings(params?: {
+    status?: string;
+    sort?: string;
+    page?: number;
+    limit?: number;
+  }): Observable<{ bookings: Booking[]; total: number }> {
+    const q = new URLSearchParams();
+    if (params?.status) q.set('status', params.status);
+    if (params?.sort) q.set('sort', params.sort);
+    if (params?.page) q.set('page', params.page.toString());
+    if (params?.limit) q.set('limit', params.limit.toString());
+    const query = q.toString();
+    const url = query ? `booking?${query}` : 'booking';
+
+    return this.http.get<{ data: { bookings: Booking[] }, totalCount?: number }>(url).pipe(
+      map(res => {
+        console.log(res)
+        const bookings = res.data?.bookings ?? [];
+        const total = res.totalCount ?? 0;
+        return { bookings, total };
+      })
     );
   }
 
