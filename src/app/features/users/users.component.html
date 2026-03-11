@@ -53,7 +53,7 @@
 </div>
 
 @if (users$ | async; as users) {
-<app-table [columns]="columns" [data]="users" [rowTemplate]="userRow">
+<app-table [columns]="columns" [data]="users" [rowTemplate]="userRow" [loading]="(loading$ | async) ?? false">
 </app-table>
 }
 

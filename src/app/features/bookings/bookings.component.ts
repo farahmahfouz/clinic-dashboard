@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe, NgClass } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableComponent, TableColumn } from '../../shared/components/table/table.component';
 import { Booking, BookingsService } from '../../core/services/bookings.service';
@@ -9,6 +9,8 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { ClickOutSideDirective } from '../../shared/directives/click-out-side.directive';
 import { BookingsFiltersComponent } from './bookings-filters/bookings-filters.component';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
+import { Observable } from 'rxjs';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-bookings',
@@ -23,6 +25,7 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
     ButtonComponent,
     ClickOutSideDirective,
     PaginationComponent,
+    AsyncPipe
   ],
   templateUrl: './bookings.component.html',
   styleUrl: './bookings.component.css'
@@ -35,13 +38,14 @@ export class BookingsComponent implements OnInit {
   isCancelModalOpen = false;
   bookingToCancel: Booking | null = null;
 
+  loading$!: Observable<boolean>;
+
   page = 1;
   limit = 6;
   total = 0 ;
 
   columns: TableColumn[] = [
     { label: 'Patient', field: 'user' },
-    { label: 'Phone', field: 'phone' },
     { label: 'Doctor', field: 'doctor' },
     { label: 'Date', field: 'dateOfService' },
     { label: 'Time', field: 'timeSlot' },
@@ -52,8 +56,11 @@ export class BookingsComponent implements OnInit {
   constructor(
     private bookingsService: BookingsService,
     private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router,
+    private loadingService: LoadingService
+  ) {
+    this.loading$ = this.loadingService.loading$
+   }
 
   ngOnInit(): void {    
     this.route.queryParamMap.subscribe((params) => {

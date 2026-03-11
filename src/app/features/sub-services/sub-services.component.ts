@@ -12,6 +12,7 @@ import { ServicesService } from '../../core/services/services.service';
 import { ClickOutSideDirective } from '../../shared/directives/click-out-side.directive';
 import { SubServicesFiltersComponent } from './sub-services-filters/sub-services-filters.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-sub-services',
@@ -40,10 +41,12 @@ export class SubServicesComponent implements OnInit {
   isEditMode = false;
   selectedSubService: any = null;
   isModalOpen = false;
-  
+
   openIndex: number | null = null;
   isDeleteOpen = false;
-  subServiceToDelete: SubServices | null = null
+  subServiceToDelete: SubServices | null = null;
+
+  loading$!: Observable<boolean>;
 
   columns = [
     { label: 'Name', field: 'name' },
@@ -51,7 +54,9 @@ export class SubServicesComponent implements OnInit {
     { label: 'Created At', field: 'createdAt' },
   ];
 
-  constructor(private subServicesService: SubServicesService, private servicesService: ServicesService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private subServicesService: SubServicesService, private servicesService: ServicesService, private router: Router, private route: ActivatedRoute, private loadingService: LoadingService) {
+    this.loading$ = this.loadingService.loading$
+   }
 
   ngOnInit(): void {
     this.subServices$ = this.subServicesService.subServices$;

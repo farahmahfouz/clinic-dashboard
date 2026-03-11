@@ -8,6 +8,7 @@ import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
 import { SchedualsFiltersComponent } from './scheduals-filters/scheduals-filters.component';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-scheduals',
@@ -34,6 +35,8 @@ export class SchedualsComponent {
   isDeleteOpen = false;
   scheduleToDelete: any = null;
 
+  loading$!: Observable<boolean>;
+
   columns: TableColumn[] = [
     { label: 'Doctor', field: 'doctor' },
     { label: 'Days Off', field: 'daysOff' },
@@ -42,7 +45,9 @@ export class SchedualsComponent {
     { label: 'Created At', field: 'createdAt' },
   ];
 
-  constructor(private schedulesService: DoctorSchedualService) {}
+  constructor(private schedulesService: DoctorSchedualService, private loadingService: LoadingService) {
+    this.loading$ = this.loadingService.loading$
+  }
 
   ngOnInit() {
     this.loadSchedules();

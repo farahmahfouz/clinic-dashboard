@@ -3,7 +3,8 @@
   width: 100%;
   max-width: fit-content;
   padding: 0.5rem 1rem;
-  border: 1px solid #cccccc9c;
+  border: 1px solid var(--color-grey-300);
+  background-color: var(--color-grey-0);
   border-radius: 0.5rem;
   outline: none;
   margin-right: 0.5rem;

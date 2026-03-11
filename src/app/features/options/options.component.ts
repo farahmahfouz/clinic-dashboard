@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Observable, take } from 'rxjs';
-import { FilterComponent } from '../../shared/components/filter/filter.component';
 import { TableComponent, TableColumn } from '../../shared/components/table/table.component';
 import { SubServicesOptionsService, ServiceOption } from '../../core/services/sub-services-options.service';
 import { SubServicesService, SubServices } from '../../core/services/sub-services.service';
 import { AsyncPipe } from '@angular/common';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-options',
@@ -19,6 +19,8 @@ export class OptionsComponent implements OnInit {
   subServices$!: Observable<SubServices[]>;
   selectedSlug: string | null = null;
 
+  loading$!: Observable<boolean>;
+
   columns: TableColumn[] = [
     { label: 'Name', field: 'name' },
     { label: 'Type', field: 'type' },
@@ -30,8 +32,10 @@ export class OptionsComponent implements OnInit {
     private optionsService: SubServicesOptionsService,
     private subServicesService: SubServicesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {
+    this.loading$ = this.loadingService.loading$;
     this.subServices$ = this.subServicesService.subServices$;
   }
 

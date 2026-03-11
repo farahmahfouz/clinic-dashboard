@@ -2,14 +2,14 @@
     <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
         <label for="name">SubService name</label>
         <input formControlName="name" type="text" placeholder="Service name"
-            class="input border text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+            class="input border border-border bg-surface text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" />
     </div>
 
     <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
-        <label for="service">Service</label>
-        <select class="select select-primary border text-md ps-3" formControlName="service">
-            <option disabled class="py-2 px-3">Choose a service</option>
-            <option *ngFor="let s of services || []" [value]="s._id" class="p-2">
+        <label for="service" class=" border-border bg-surface">Service</label>
+        <select class="select select-primary border text-md ps-3 border-border bg-surface" formControlName="service">
+            <option disabled class="py-2 px-3 border-border bg-surface">Choose a service</option>
+            <option *ngFor="let s of services || []" [value]="s._id" class="p-2 border-border bg-surface">
                 {{ s.name }}
             </option>
         </select>

@@ -11,7 +11,7 @@
 </div>
 
 @if (options.length) {
-  <app-table [columns]="columns" [data]="options" [rowTemplate]="optionRow" />
+  <app-table [columns]="columns" [data]="options" [rowTemplate]="optionRow" [loading]="(loading$ | async) ?? false"/>
 }
 
 <ng-template #optionRow let-option let-i="index">

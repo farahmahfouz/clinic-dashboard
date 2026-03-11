@@ -57,4 +57,15 @@ export class UsersService {
       tap(users => this.users$.next(users))
     )
   }
+
+  logout() {
+    return this.httpClient.get('user/logout', {
+      withCredentials: true
+    }).pipe(
+      tap(() => {
+        this.user$.next(null);
+        this.me$ = undefined;
+      })
+    );
+  }
 }

@@ -5,9 +5,12 @@
   (sortChange)="sortRatings($event)">
 </app-services-filters>
 
-@if (services$ | async; as services) {
-<app-table [columns]="columns" [data]="services" [rowTemplate]="serviceRow"/>
-}
+<app-table
+  [columns]="columns"
+  [data]="(services$ | async) ?? []"
+  [rowTemplate]="serviceRow"
+  [loading]="(loading$ | async) ?? false"
+/>
 
 <ng-template #serviceRow let-service let-i="index">
   <tr>

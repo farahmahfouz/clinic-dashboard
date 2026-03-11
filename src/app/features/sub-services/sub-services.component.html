@@ -6,7 +6,7 @@
 </app-sub-services-filters>
 
 @if(subServices$ | async; as subServices){
-<app-table [columns]="columns" [data]="subServices" [rowTemplate]="subServiceRow" />
+<app-table [columns]="columns" [data]="subServices" [rowTemplate]="subServiceRow" [loading]="(loading$ | async) ?? false" />
 }
 
 <ng-template #subServiceRow let-subService let-i="index">

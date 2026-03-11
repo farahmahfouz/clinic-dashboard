@@ -2,8 +2,8 @@ import { Component, Input, TemplateRef, ViewEncapsulation } from '@angular/core'
 import { NgTemplateOutlet } from '@angular/common';
 
 export interface TableColumn {
-  label: string;  
-  field: string;  
+  label: string;
+  field: string;
 }
 
 @Component({
@@ -18,5 +18,11 @@ export class TableComponent {
   @Input() data: any[] = [];
   @Input() columns: TableColumn[] = [];
   @Input() rowTemplate!: TemplateRef<any>;
+  @Input() loading = false;
+  @Input() skeletonRows = 5;
+
+  get skeletonRowIndices(): number[] {
+    return Array.from({ length: this.skeletonRows }, (_, i) => i);
+  }
 }
 

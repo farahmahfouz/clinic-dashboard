@@ -2,18 +2,18 @@
     <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
         <label for="name">Service name</label>
         <input formControlName="name" type="text" placeholder="Service name"
-            class="input border text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+            class="input border border-border bg-surface text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" />
     </div>
 
     <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
         <label for="description">Service Description</label>
         <textarea formControlName="description" type="text" placeholder="Service description"
-            class="input border text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" ></textarea>
+            class="input border border-border bg-surface text-md py-1 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" ></textarea>
     </div>
 
     <div class="grid grid-cols-[155px_1fr] gap-2 items-center">
         <label for="coverImage">Image</label>
-        <input type="file" placeholder="Image URL" class="file-input file-input-primary"
+        <input type="file" placeholder="Image URL" class="file-input file-input-primary bg-surface border-border"
             (change)="onFileChange($event)" />
     </div>
 

@@ -5,6 +5,7 @@ import { Observable, switchMap } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { OperationIconComponent } from '../../shared/icons/operation-icon.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-users',
@@ -20,6 +21,8 @@ export class UsersComponent implements OnInit {
   selectedSort: string = '-createdAt';
   searchValue = '';
 
+  loading$!: Observable<boolean>;
+
   columns = [
     { label: 'Name', field: 'name' },
     { label: 'Role', field: 'role' },
@@ -31,8 +34,11 @@ export class UsersComponent implements OnInit {
   constructor(
     private userService: UsersService,
     private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router,
+    private loadingService: LoadingService
+  ) {
+    this.loading$ = this.loadingService.loading$;
+  }
 
   ngOnInit() {
     this.users$ = this.userService.users$;
@@ -47,9 +53,7 @@ export class UsersComponent implements OnInit {
         this.selectedSort,
         this.searchValue
       ).subscribe();
-    }
-
-    );
+    });
   }
 
   filterByRole(role: string) {

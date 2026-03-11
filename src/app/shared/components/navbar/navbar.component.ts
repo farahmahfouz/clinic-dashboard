@@ -1,14 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Renderer2 } from '@angular/core';
 import { UsersService } from '../../../core/services/users.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { Router } from '@angular/router';
 
 const THEME_KEY = 'dashboard-theme';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, ConfirmModalComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -16,8 +18,9 @@ export class NavbarComponent {
   @Input() title = '';
   user$!: Observable<any>;
   isDarkMode = false;
+  showLogoutConfirm = false;
 
-  constructor(private userService: UsersService) {}
+  constructor(private userService: UsersService, private router: Router, private renderer: Renderer2) { }
 
   ngOnInit() {
     this.user$ = this.userService.getMe();
@@ -39,12 +42,30 @@ export class NavbarComponent {
 
   private applyTheme(): void {
     const html = document.documentElement;
+
     if (this.isDarkMode) {
-      html.classList.remove('light-mode');
-      html.classList.add('dark-mode');
+      this.renderer.removeClass(html, 'light-mode');
+      this.renderer.addClass(html, 'dark-mode');
     } else {
-      html.classList.remove('dark-mode');
-      html.classList.add('light-mode');
+      this.renderer.removeClass(html, 'dark-mode');
+      this.renderer.addClass(html, 'light-mode');
     }
+  }
+
+  openLogoutConfirm() {
+    this.showLogoutConfirm = true;
+  }
+
+  confirmLogout() {
+    this.userService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login'])
+      }
+    });
+    this.showLogoutConfirm = false;
+  }
+
+  cancelLogout() {
+    this.showLogoutConfirm = false
   }
 }

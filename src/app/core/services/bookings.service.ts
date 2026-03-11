@@ -68,7 +68,6 @@ export class BookingsService {
 
     return this.http.get<{ data: { bookings: Booking[] }, totalCount?: number }>(url).pipe(
       map(res => {
-        console.log(res)
         const bookings = res.data?.bookings ?? [];
         const total = res.totalCount ?? 0;
         return { bookings, total };

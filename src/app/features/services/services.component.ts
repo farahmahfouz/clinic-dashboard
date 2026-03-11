@@ -11,6 +11,7 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { ClickOutSideDirective } from '../../shared/directives/click-out-side.directive';
 import { ServiceFormComponent } from './service-form/service-form.component';
 import { ServicesFiltersComponent } from './services-filters/services-filters.component';
+import { LoadingService } from '../../core/services/loading.service';
 
 export interface Service {
   _id: string;
@@ -50,6 +51,17 @@ export class ServicesComponent implements OnInit {
   openIndex: number | null = null;
   isDeleteOpen = false;
   serviceToDelete: Service | null = null;
+
+  loading$!: Observable<boolean>;
+
+  constructor(
+    private serviceService: ServicesService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private loadingService: LoadingService
+  ) {
+    this.loading$ = this.loadingService.loading$;
+  }
 
   openDelete(service: Service) {
     this.serviceToDelete = service;
@@ -93,8 +105,6 @@ export class ServicesComponent implements OnInit {
     { label: 'Rating', field: 'ratingsAverage' },
     { label: 'Created At', field: 'createdAt' },
   ];
-
-  constructor(private serviceService: ServicesService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.services$ = this.serviceService.services$;
