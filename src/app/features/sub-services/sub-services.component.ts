@@ -13,6 +13,7 @@ import { ClickOutSideDirective } from '../../shared/directives/click-out-side.di
 import { SubServicesFiltersComponent } from './sub-services-filters/sub-services-filters.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from '../../core/services/loading.service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-sub-services',
@@ -54,9 +55,16 @@ export class SubServicesComponent implements OnInit {
     { label: 'Created At', field: 'createdAt' },
   ];
 
-  constructor(private subServicesService: SubServicesService, private servicesService: ServicesService, private router: Router, private route: ActivatedRoute, private loadingService: LoadingService) {
+  constructor(
+    private subServicesService: SubServicesService,
+    private servicesService: ServicesService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private loadingService: LoadingService,
+    private toast: ToastService
+  ) {
     this.loading$ = this.loadingService.loading$
-   }
+  }
 
   ngOnInit(): void {
     this.subServices$ = this.subServicesService.subServices$;
@@ -100,6 +108,7 @@ export class SubServicesComponent implements OnInit {
 
     this.subServicesService.deleteSubService(this.subServiceToDelete._id)
       .subscribe(() => {
+        this.toast.showSuccess('Subservice deleted successfully')
         this.isDeleteOpen = false;
         this.subServiceToDelete = null;
       });
@@ -108,12 +117,16 @@ export class SubServicesComponent implements OnInit {
   handleSubmit(data: any) {
     if (this.isEditMode) {
       this.subServicesService.editSubService(data, this.selectedSubService._id).subscribe(() => {
+        this.toast.showSuccess('Subservice edited successfully')
         this.closeModal();
       });
     } else {
       this.subServicesService
         .addSubService(data)
-        .subscribe(() => this.closeModal());
+        .subscribe(() => {
+          this.toast.showSuccess('Subservice added successfully')
+          this.closeModal()
+        });
     }
   }
 

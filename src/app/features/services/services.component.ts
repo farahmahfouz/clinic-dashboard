@@ -12,6 +12,7 @@ import { ClickOutSideDirective } from '../../shared/directives/click-out-side.di
 import { ServiceFormComponent } from './service-form/service-form.component';
 import { ServicesFiltersComponent } from './services-filters/services-filters.component';
 import { LoadingService } from '../../core/services/loading.service';
+import { ToastService } from '../../core/services/toast.service';
 
 export interface Service {
   _id: string;
@@ -58,7 +59,8 @@ export class ServicesComponent implements OnInit {
     private serviceService: ServicesService,
     private route: ActivatedRoute,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private toast: ToastService
   ) {
     this.loading$ = this.loadingService.loading$;
   }
@@ -91,9 +93,23 @@ export class ServicesComponent implements OnInit {
 
   handleSubmit(data: any) {
     if (this.isEditMode && this.selectedService) {
-      this.serviceService.editService(data, this.selectedService._id).subscribe();
+      this.serviceService.editService(data, this.selectedService._id).subscribe({
+        next: () => {
+          this.toast.showSuccess('Service edited successfully');
+        },
+        error: () => {
+          this.toast.showError('Faild to edit service')
+        }
+      });
     } else {
-      this.serviceService.addService(data).subscribe();
+      this.serviceService.addService(data).subscribe({
+        next: () => {
+          this.toast.showSuccess('Service added successfully');
+        },
+        error: () => {
+          this.toast.showError('Faild to add service')
+        }
+      });
     }
 
     this.closeModal();
@@ -134,12 +150,13 @@ export class ServicesComponent implements OnInit {
 
   confirmDelete() {
     if (!this.serviceToDelete) return;
-  
+
     this.serviceService.deleteService(this.serviceToDelete._id)
       .subscribe(() => {
+        this.toast.showSuccess('Service deleted successfully');
         this.isDeleteOpen = false;
         this.serviceToDelete = null;
         this.serviceService.loadServices(this.selectedSort, this.searchValue).subscribe();
-      });
+      })
   }
 }
